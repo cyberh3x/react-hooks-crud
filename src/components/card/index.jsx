@@ -1,29 +1,25 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
 import CardComponent from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import Button from "components/button";
+import CardActions from "@mui/material/CardActions";
 import { red } from "@mui/material/colors";
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
-export default function Card({ title = "", media, body = "", ...props }) {
+export default function Card({
+  id = null,
+  title = "",
+  media,
+  body = "",
+  adminMode = false,
+  handleRemove = () => {},
+  handleUpdate = () => {},
+  ...props
+}) {
   return (
-    <CardComponent sx={{ maxWidth: 345 }} {...props}>
+    <CardComponent {...props}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -44,6 +40,24 @@ export default function Card({ title = "", media, body = "", ...props }) {
           {body}
         </Typography>
       </CardContent>
+      {adminMode && (
+        <CardActions>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={() => handleRemove(id)}
+          >
+            Remove
+          </Button>
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={() => handleUpdate(id)}
+          >
+            Update
+          </Button>
+        </CardActions>
+      )}
     </CardComponent>
   );
 }

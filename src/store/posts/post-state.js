@@ -1,5 +1,5 @@
 const PostState = {
-  posts: [],
+  posts: []
 };
 
 export default PostState;

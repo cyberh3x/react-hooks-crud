@@ -1,20 +1,37 @@
 import { usePosts as usePostsContext } from "store/posts/post-provider";
 import { _GET } from "services/http";
 import { GET_POSTS } from "config/routes";
-import { STORE_POSTS } from "config/actions-type";
+import {
+  CREATE_POST,
+  REMOVE_POST,
+  STORE_POSTS,
+  UPDATE_POST,
+} from "config/actions-type";
 
 const usePosts = () => {
   const [{ posts }, dispatch] = usePostsContext(),
-    get = () => {
-      return _GET(GET_POSTS)
+    read = async () => {
+      return await _GET(GET_POSTS)
         .then((response) => {
-          dispatch({ type: STORE_POSTS, payload: response });
+          dispatch({ type: STORE_POSTS, payload: response.reverse() });
         })
         .catch((erorr) => console.error(erorr));
+    },
+    remove = (postId) => {
+      dispatch({ type: REMOVE_POST, payload: postId });
+    },
+    update = (postId) => {
+      dispatch({ type: UPDATE_POST, payload: postId });
+    },
+    create = () => {
+      dispatch({ type: CREATE_POST });
     };
 
   return {
-    get,
+    read,
+    remove,
+    update,
+    create,
     posts,
   };
 };

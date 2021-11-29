@@ -6,7 +6,6 @@ const createRequest = async (method, url, options, withDefaultBaseUrl) => {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      ...options.headers,
     },
     ...options,
   };
